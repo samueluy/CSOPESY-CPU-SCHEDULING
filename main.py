@@ -3,19 +3,21 @@
 import algorithm_functions as af
 import utils as ut
 
-process = []
+processes = []
 
-scheduling_algorithm, number_of_processes, time_quantum, process = ut.get_user_input()
+scheduling_algorithm, number_of_processes, time_quantum, processes = ut.get_user_input()
 
-if scheduling_algorithm == 1:
-    process = af.fcfs(process)
+print(scheduling_algorithm)
+if scheduling_algorithm == 0:
+    processes = af.fcfs(processes)
+elif scheduling_algorithm == 1:
+    processes = af.sjf(processes)
 elif scheduling_algorithm == 2:
-    process = af.sjf(process)
+    processes = af.srtf(processes)
 elif scheduling_algorithm == 3:
-    process = af.srtf(process)
-elif scheduling_algorithm == 4:
-    process = af.rr(process, time_quantum)
+    processes = af.rr(processes, time_quantum)
 else:
     print("Invalid input")
 
-ut.display_output(process)
+ut.display_output(processes)
+ut.average_waiting_time(processes)

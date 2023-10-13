@@ -1,26 +1,22 @@
 import process
 
-# First-Come-First-Serve (FCFS)
-def fcfs(process):
-    # sort by arrival time
-    for inst in range(len(process)):
-        current = process[inst]
-        if current.arrival_time > current.arrival_time:
-            temp = current.arrival_time
-            current.arrival_time = current.arrival_time
-            current.arrival_time = temp
-    # set waiting time
-    for inst in range(len(process)):
-        current = process[inst]
-        if inst == 0:
-            current.waiting_time = 0
-        else:
-            current.waiting_time = process[inst - 1].waiting_time + process[inst - 1].burst_time
-    # set end time
-    for inst in range(len(process)):
-        current = process[inst]
-        current.end_time = current.arrival_time + current.burst_time + current.waiting_time
-    return process
+def fcfs(processes):
+    # Sort processes by arrival time
+    processes.sort(key=lambda x: x.get_arrival_time())
+
+    # Initialize waiting time and end time for the first process
+    processes[0].set_waiting_time(0)
+    processes[0].set_end_time(processes[0].get_arrival_time() + processes[0].get_burst_time())
+
+    # Calculate waiting time and end time for the remaining processes
+    for i in range(1, len(processes)):
+        processes[i].set_waiting_time(
+            max(0, processes[i - 1].get_end_time() - processes[i].get_arrival_time())
+        )
+        processes[i].set_end_time(processes[i].get_arrival_time() + processes[i].get_waiting_time() + processes[i].get_burst_time())
+
+    return processes
+
 
 # Shortest-Job First (SJF)
 

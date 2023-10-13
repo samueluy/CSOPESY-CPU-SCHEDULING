@@ -2,28 +2,16 @@
 
 import process
 
-def display_output(process):
-    sort_by_name(process)
-    for inst in len(process):
-        current = process[inst]
-        print(current.id, + " start time: ", current.arrival_time, " end time: ", current.end_time, " | Waiting time: ", current.waiting_time, " | Turnaround time: ")
-        print(average_waiting_time(process))
-
-def sort_by_name(process):
-    for inst in len(process):
-        current = process[inst]
-        if current.id > current.id:
-            temp = current.id
-            current.id = current.id
-            current.id = temp
-    return process
-
-def average_waiting_time(process):
+def display_output(processes):
+    for inst in range(len(processes)):
+        current = processes[inst]
+        print(f"{current.get_id()} start time: {current.get_start_time()} end time: {current.get_end_time()} | Waiting time: {current.get_waiting_time()}")
+        
+def average_waiting_time(processes):
     total = 0
-    for inst in len(process):
-        current = process[inst]
+    for current in processes:
         total += current.waiting_time
-    return total / len(process)
+    return total / len(processes)
 
 def get_user_input():
     processes = []
@@ -34,5 +22,5 @@ def get_user_input():
     
     for inst in range(number_of_processes):
         id, arrival_time, burst_time = map(int, input().split())
-        processes.append(process.Process(id, arrival_time, burst_time))
-    return scheduling_algorithm, number_of_processes, time_quantum, process
+        processes.append(process.Process(id=id, arrival_time=arrival_time, burst_time=burst_time))
+    return scheduling_algorithm, number_of_processes, time_quantum, processes
