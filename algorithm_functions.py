@@ -10,6 +10,7 @@ def fcfs(processes):
 
     # Calculate waiting time and end time for the remaining processes
     for i in range(1, len(processes)):
+        processes[i].set_start_time(max(processes[i - 1].get_end_time(), processes[i].get_arrival_time()))
         processes[i].set_waiting_time(
             max(0, processes[i - 1].get_end_time() - processes[i].get_arrival_time())
         )
