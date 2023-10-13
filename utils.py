@@ -26,7 +26,7 @@ def average_waiting_time(process):
     return total / len(process)
 
 def get_user_input():
-    process = []
+    processes = []
     scheduling_algorithm, number_of_processes, time_quantum = map(int, input().split())
     # set time_quantum = 1 if scheduling_algorithm is not RR (3)
     if scheduling_algorithm != 3:
@@ -34,5 +34,5 @@ def get_user_input():
     
     for inst in range(number_of_processes):
         id, arrival_time, burst_time = map(int, input().split())
-        process.append(process.Process(id, arrival_time, burst_time))
+        processes.append(process.Process(id, arrival_time, burst_time))
     return scheduling_algorithm, number_of_processes, time_quantum, process
