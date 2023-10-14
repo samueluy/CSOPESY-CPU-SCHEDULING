@@ -5,7 +5,13 @@ import process
 # Display the output in the desired format
 def display_output(processes):
     for current in processes:
-        print(f"{current.get_id()} start time: {current.get_start_time()} end time: {current.get_end_time()} | Waiting time: {current.get_waiting_time()}")
+        # Extracting multiple start and end times and converting them to strings for clean printing
+        start_times_str = " ".join(map(str, current.start_times))
+        end_times_str = " ".join(map(str, current.end_times))
+
+        # Displaying all relevant information for each process
+        print(f"{current.get_id()} start time: {start_times_str} end time: {end_times_str} "
+              f"| Waiting time: {current.get_waiting_time()} ")
 
 # Calculate and display the average waiting time
 def average_waiting_time(processes):
