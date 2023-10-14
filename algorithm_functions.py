@@ -3,18 +3,24 @@ def fcfs(processes):
     processes.sort(key=lambda x: x.get_arrival_time())
 
     # Initialize waiting time and end time for the first process
+    processes[0].add_start_time(processes[0].get_arrival_time())
+    processes[0].add_end_time(processes[0].get_arrival_time() + processes[0].get_burst_time())
     processes[0].set_waiting_time(0)
-    processes[0].set_end_time(processes[0].get_arrival_time() + processes[0].get_burst_time())
+    processes[0].set_turn_around_time(processes[0].get_burst_time())
 
     # Calculate waiting time and end time for the remaining processes
     for i in range(1, len(processes)):
-        processes[i].set_start_time(max(processes[i - 1].get_end_time(), processes[i].get_arrival_time()))
-        processes[i].set_waiting_time(
-            max(0, processes[i - 1].get_end_time() - processes[i].get_arrival_time())
-        )
-        processes[i].set_end_time(processes[i].get_arrival_time() + processes[i].get_waiting_time() + processes[i].get_burst_time())
+        start_time = max(processes[i - 1].end_times[-1], processes[i].get_arrival_time())
+        end_time = start_time + processes[i].get_burst_time()
+
+        processes[i].add_start_time(start_time)
+        processes[i].add_end_time(end_time)
+        
+        processes[i].set_waiting_time(start_time - processes[i].get_arrival_time())
+        processes[i].set_turn_around_time(end_time - processes[i].get_arrival_time())
 
     return processes
+
 
 
 # Shortest-Job First (SJF)
