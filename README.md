@@ -29,6 +29,6 @@ A collection of utility functions for handling user inputs, displaying informati
 
 Abalos, Alyanna<br/>
 Deculawan, Ryan Jay<br/>
-Senipe, John<br/>
+Joyo, John Carlo<br/>
 Uy, Samuel<br/>
 
