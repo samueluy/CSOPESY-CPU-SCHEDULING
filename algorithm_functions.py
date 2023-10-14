@@ -1,5 +1,3 @@
-import process
-
 def fcfs(processes):
     # Sort processes by arrival time
     processes.sort(key=lambda x: x.get_arrival_time())
