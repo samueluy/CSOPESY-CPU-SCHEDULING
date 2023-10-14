@@ -14,7 +14,7 @@ def average_waiting_time(processes):
         total_waiting_time += current.get_waiting_time()
     average_waiting_time = total_waiting_time / len(processes)
     
-    print(f"Average waiting time: {average_waiting_time:.1f}")
+    print(f"Average waiting time: {average_waiting_time}")
 
 # Get user input for scheduling algorithm, number of processes, and process details
 def get_user_input():
