@@ -42,11 +42,17 @@ def rr(processes, time_quantum):
             process_to_execute.set_start_time(current_time)
             has_started[process_to_execute.get_id()] = True
 
+        # Adding start time
+        process_to_execute.add_start_time(current_time)
+
         # Calculating end of execution for current quantum slice
         execution_time = min(remaining_time[process_to_execute.get_id()], time_quantum)
         current_time += execution_time
         remaining_time[process_to_execute.get_id()] -= execution_time
         
+        # Adding end time
+        process_to_execute.add_end_time(current_time)
+
         # Updating end time and other time metrics if process is finished
         if remaining_time[process_to_execute.get_id()] == 0:
             process_to_execute.set_end_time(current_time)
