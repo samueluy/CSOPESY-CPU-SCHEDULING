@@ -1,5 +1,4 @@
 import process
-from collections import deque
 
 def fcfs(processes):
     # Sort processes by arrival time
