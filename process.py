@@ -1,12 +1,12 @@
 class Process:
-    def __init__(self, id=None, arrival_time=None, start_time=0, end_time=0, burst_time=None, waiting_time=0, turn_around_time=0):
+    def __init__(self, id=None, arrival_time=None, burst_time=None, waiting_time=0, turn_around_time=0):
         self.id = id
         self.arrival_time = arrival_time
         self.burst_time = burst_time
         self.waiting_time = waiting_time
-        self.start_time = start_time
-        self.end_time = end_time
         self.turn_around_time = turn_around_time
+        self.start_times = []
+        self.end_times = []
 
     def get_id(self):
         return self.id
@@ -49,3 +49,9 @@ class Process:
 
     def set_turn_around_time(self, turn_around_time):
         self.turn_around_time = turn_around_time
+
+    def add_start_time(self, start_time):
+        self.start_times.append(start_time)
+
+    def add_end_time(self, end_time):
+        self.end_times.append(end_time)
