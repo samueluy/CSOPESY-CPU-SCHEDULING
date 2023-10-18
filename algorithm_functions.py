@@ -40,10 +40,10 @@ def srtf(processes):
             current_time += 1
             continue
 
-        # Find the process with the shortest remaining time among the arrived processes
+        # Find the process with the shortest remaining burst time among the arrived processes
         shortest_remaining_time = min(remaining_time[p.get_id()] for p in arrived_processes)
 
-        # TIEBREAKER: If there are multiple processes with the same shortest remaining time, choose the one that arrived earliest
+        # TIEBREAKER: If there are multiple processes with the same shortest burst remaining time, choose the one that arrived earliest
         process_to_execute = min(
             (p for p in arrived_processes if remaining_time[p.get_id()] == shortest_remaining_time),
             key=lambda p: p.get_arrival_time()
