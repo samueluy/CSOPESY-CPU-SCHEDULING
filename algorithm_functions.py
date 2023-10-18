@@ -26,6 +26,49 @@ def fcfs(processes):
 # Shortest-Job First (SJF)
 
 # Shortest-Remaining-Time-First (SRTF)
+def srtf(processes):
+    current_time = 0
+    remaining_time = {p.get_id(): p.get_burst_time() for p in processes}
+    has_started = {p.get_id(): False for p in processes}
+    current_process = None
+
+    while any(val > 0 for val in remaining_time.values()):
+        # Find processes that have arrived but not started yet
+        arrived_processes = [p for p in processes if p.get_arrival_time() <= current_time and not has_started[p.get_id()]]
+
+        if not arrived_processes:
+            current_time += 1
+            continue
+
+        # Find the process with the shortest remaining time among the arrived processes
+        shortest_remaining_time = min(remaining_time[p.get_id()] for p in arrived_processes)
+
+        # TIEBREAKER: If there are multiple processes with the same shortest remaining time, choose the one that arrived earliest
+        process_to_execute = min(
+            (p for p in arrived_processes if remaining_time[p.get_id()] == shortest_remaining_time),
+            key=lambda p: p.get_arrival_time()
+        )
+
+        if current_process != process_to_execute:
+            # If a new process is selected, record the start time of the new process
+            if current_process:
+                current_process.add_end_time(current_time)
+            current_process = process_to_execute
+            current_process.add_start_time(current_time)
+
+        current_time += 1
+        remaining_time[current_process.get_id()] -= 1
+
+        if remaining_time[current_process.get_id()] == 0:
+            # The current process has finished
+            current_process.add_end_time(current_time)
+            current_process.set_turn_around_time(current_time - current_process.get_arrival_time())
+            current_process.set_waiting_time(current_process.get_turn_around_time() - current_process.get_burst_time())
+            has_started[current_process.get_id()] = True
+            current_process = None
+
+    return processes
+
 
 # Round-Robin (RR)
 def rr(processes, time_quantum):
@@ -77,3 +120,4 @@ def rr(processes, time_quantum):
             ready_queue.append(ready_queue.pop(0))
             
     return processes
+
