@@ -23,7 +23,46 @@ def fcfs(processes):
 
 
 
-# Shortest-Job First (SJF)
+# Shortest-Job First (SJF) scheduling algorithm
+def sjf(processes):
+    current_time = 0  # Initialize the current time to 0
+    remaining_time = {p.get_id(): p.get_burst_time() for p in processes}  # Remaining burst time for each process
+    has_started = {p.get_id(): False for p in processes}  # Track if each process has started
+    current_process = None  # The current process being executed
+
+    while any(val > 0 for val in remaining_time.values()):
+        # Find processes that have arrived but not started yet
+        arrived_processes = [p for p in processes if p.get_arrival_time() <= current_time and not has_started[p.get_id()]]
+        print(current_time)
+        if not arrived_processes:
+            current_time += 1
+            continue
+
+        # Find the process with the shortest burst time among the arrived processes
+        shortest_burst_time = min(remaining_time[p.get_id()] for p in arrived_processes)
+
+        # TIEBREAKER: If there are multiple processes with the same shortest burst time,
+        # choose the one that arrived earliest
+        process_to_execute = min(
+            (p for p in arrived_processes if remaining_time[p.get_id()] == shortest_burst_time),
+            key=lambda p: p.get_arrival_time()
+        )
+
+        # Update the current time to the completion time of the selected process
+        current_time += process_to_execute.get_burst_time()
+        current_process = process_to_execute
+
+        # Update the process's completion time, turnaround time, and waiting time
+        current_process.add_end_time(current_time)
+        current_process.set_turn_around_time(current_time - current_process.get_arrival_time())
+        current_process.set_waiting_time(current_process.get_turn_around_time() - current_process.get_burst_time())
+        has_started[current_process.get_id()] = True
+        if all(has_started.values()):
+            # Break the loop if all processes have finished
+            break
+
+    return processes  
+
 
 # Shortest-Remaining-Time-First (SRTF)
 def srtf(processes):
