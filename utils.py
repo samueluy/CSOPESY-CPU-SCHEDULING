@@ -5,15 +5,18 @@ import process
 # Display the output in the desired format
 def display_output(processes):
     for current in processes:
-        # Extracting multiple start and end times and converting them to strings for clean printing
-        start_times_str = " ".join(map(str, current.start_times))
-        end_times_str = " ".join(map(str, current.end_times))
-
-        # Displaying all relevant information for each process
-        print(f"{current.get_id()} start time: {start_times_str} end time: {end_times_str} "
-              f"| Waiting time: {current.get_waiting_time()} ")
-
-# Calculate and display the average waiting time
+        # Calculate total waiting time for each process
+        total_waiting_time = 0
+        # The initial waiting time is the time until the first start time minus the arrival time
+        initial_waiting_time = current.start_times[0] - current.arrival_time
+        total_waiting_time += initial_waiting_time
+        print(f"{current.get_id()} start time: {current.start_times[0]} end time: {current.end_times[0]} | Waiting time: {initial_waiting_time}")
+        
+        # For subsequent cycles, waiting time is the time since the end of the last cycle
+        for i in range(1, len(current.start_times)):
+            waiting_time_since_last_cycle = current.start_times[i] - current.end_times[i-1]
+            total_waiting_time += waiting_time_since_last_cycle
+            print(f"{current.get_id()} start time: {current.start_times[i]} end time: {current.end_times[i]} | Waiting time: {total_waiting_time}")
 def average_waiting_time(processes):
     total_waiting_time = 0
     for current in processes:
