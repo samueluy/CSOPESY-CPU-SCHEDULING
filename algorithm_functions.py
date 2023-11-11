@@ -33,7 +33,7 @@ def sjf(processes):
     while any(val > 0 for val in remaining_time.values()):
         # Find processes that have arrived but not started yet
         arrived_processes = [p for p in processes if p.get_arrival_time() <= current_time and not has_started[p.get_id()]]
-        print(current_time)
+        #print(current_time)
         if not arrived_processes:
             current_time += 1
             continue
@@ -49,6 +49,7 @@ def sjf(processes):
         )
 
         # Update the current time to the completion time of the selected process
+        process_to_execute.add_start_time(current_time)
         current_time += process_to_execute.get_burst_time()
         current_process = process_to_execute
 
